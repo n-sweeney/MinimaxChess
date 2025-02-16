@@ -4,9 +4,13 @@ namespace Chess {
     public class Board {
         public const int BOARDSIZE = 8;
         public Piece?[,] Tiles { get; set; }
+        public List<Piece> whitePieces { get; set; }
+        public List<Piece> blackPieces { get; set; }
 
         public Board() {
             Tiles = new Piece[BOARDSIZE, BOARDSIZE];
+            whitePieces = new List<Piece>();
+            blackPieces = new List<Piece>();
         }
 
         public void Initialise() {
@@ -55,6 +59,16 @@ namespace Chess {
 
             if (piece == null) {
                 return;
+            }
+
+            Piece? takenPiece = Tiles[move.ToRow, move.ToCol];
+
+            if (takenPiece != null) {
+                if (takenPiece.Colour == PieceColour.White) {
+                    whitePieces.Add(takenPiece);
+                } else {
+                    blackPieces.Add(takenPiece);
+                }
             }
 
             Tiles[move.ToRow, move.ToCol] = piece;
