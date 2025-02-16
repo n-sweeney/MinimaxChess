@@ -58,6 +58,7 @@ namespace MinimaxChess {
                     Piece? piece = game.Board.Tiles[i, j];
 
                     tiles[i, j].Content = null;
+                    tiles[i, j].BorderThickness = new Thickness(0);
 
                     if (piece != null) {
                         string url = piece.GetImagePath();
@@ -80,7 +81,7 @@ namespace MinimaxChess {
             if (clickedButton == null)
                 return;
 
-            var pos = (Tuple<int, int>)clickedButton.Tag;
+            Tuple<int, int> pos = (Tuple<int, int>)clickedButton.Tag;
             int row = pos.Item1;
             int col = pos.Item2;
 
@@ -92,19 +93,32 @@ namespace MinimaxChess {
                     selectedTile = clickedButton;
                     selectedTile.BorderThickness = new Thickness(3);
                     selectedTile.BorderBrush = Brushes.Red;
+
+                    var legalMoves = game.Board.GenerateAllMoves(game.Turn);
+
+                    foreach (Move legalMove in legalMoves) {
+                        if (legalMove.FromRow == selectedRow && legalMove.FromCol == selectedCol) {
+                            Button tile = tiles[legalMove.ToRow, legalMove.ToCol];
+
+                            tile.BorderThickness = new Thickness(3);
+                            tile.BorderBrush = Brushes.Green;
+                        }
+                    }
+
                 }
             } else {
                 if (selectedRow == row && selectedCol == col) {
                     DeselectSquare();
+                    DisplayBoard();
                     return;
                 }
 
                 Move move = new Move(selectedRow.Value, selectedCol.Value, row, col);
 
                 bool isLegal = false;
-                var legalMoves = game.Board.GenerateAllMoves(game.Turn);
+                List<Move> legalMoves = game.Board.GenerateAllMoves(game.Turn);
 
-                foreach (var legalMove in legalMoves) {
+                foreach (Move legalMove in legalMoves) {
                     if (legalMove.FromRow == move.FromRow && legalMove.FromCol == move.FromCol && legalMove.ToRow == move.ToRow && legalMove.ToCol == move.ToCol) {
                         isLegal = true;
                         break;
@@ -140,6 +154,7 @@ namespace MinimaxChess {
                 } else {
                     MessageBox.Show("Invalid move");
                     DeselectSquare();
+                    DisplayBoard();
                 }
             }
         }
