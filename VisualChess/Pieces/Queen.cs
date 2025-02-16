@@ -1,13 +1,6 @@
 ﻿namespace Chess.Pieces {
     public class Queen : Piece {
-        public Queen(PieceColour colour) : base(colour, PieceType.Queen, GetQueenSymbol(colour)) {
-        }
-        private static string GetQueenSymbol(PieceColour colour) {
-            if (colour == PieceColour.White) {
-                return "QUEEN";
-            }
-
-            return "queen";
+        public Queen(PieceColour colour) : base(colour, PieceType.Queen) {
         }
 
         public override List<Move> GetLegalMoves(Board board, int row, int col) {

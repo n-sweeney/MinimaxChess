@@ -3,6 +3,7 @@ using Chess.Pieces;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MinimaxChess {
     /// <summary>
@@ -55,18 +56,21 @@ namespace MinimaxChess {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     Piece? piece = game.Board.Tiles[i, j];
-                    string pieceText = "";
+
+                    tiles[i, j].Content = null;
 
                     if (piece != null) {
-                        pieceText = piece.Name.ToString();
-                        if (pieceText.All(char.IsUpper)) {
-                            tiles[i, j].Foreground = new SolidColorBrush(Colors.White);
-                        } else {
-                            tiles[i, j].Foreground = new SolidColorBrush(Colors.Black);
-                        }
-                    }
+                        string url = piece.GetImagePath();
 
-                    tiles[i, j].Content = pieceText;
+                        Image pieceImage = new Image {
+                            Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
+                            Width = 70,
+                            Height = 70,
+                            Stretch = Stretch.Uniform
+                        };
+
+                        tiles[i, j].Content = pieceImage;
+                    }
                 }
             }
         }

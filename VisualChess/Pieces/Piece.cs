@@ -5,12 +5,10 @@
     public abstract class Piece {
         public PieceColour Colour { get; set; }
         public PieceType Type { get; set; }
-        public string Name { get; set; }
 
-        public Piece(PieceColour colour, PieceType type, string name) {
+        public Piece(PieceColour colour, PieceType type) {
             Colour = colour;
             Type = type;
-            Name = name;
         }
 
         public abstract List<Chess.Move> GetLegalMoves(Chess.Board board, int row, int col);
@@ -46,6 +44,10 @@
                     return null;
                 }
             }
+        }
+
+        public string GetImagePath() {
+            return "/Assets/Pieces/" + Colour.ToString() + "/" + Type.ToString() + ".png";
         }
     }
 }

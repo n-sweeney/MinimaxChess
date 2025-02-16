@@ -1,14 +1,8 @@
 ﻿namespace Chess.Pieces {
     public class Knight : Piece {
-        public Knight(PieceColour colour) : base(colour, PieceType.Knight, GetKnightSymbol(colour)) {
+        public Knight(PieceColour colour) : base(colour, PieceType.Knight) {
         }
-        private static string GetKnightSymbol(PieceColour colour) {
-            if (colour == PieceColour.White) {
-                return "KNIGHT";
-            }
 
-            return "knight";
-        }
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
             List<Move> moves = new List<Move>();
 

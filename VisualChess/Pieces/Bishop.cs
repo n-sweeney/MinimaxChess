@@ -1,14 +1,6 @@
 ﻿namespace Chess.Pieces {
     public class Bishop : Piece {
-        public Bishop(PieceColour colour) : base(colour, PieceType.Bishop, GetBishopSymbol(colour)) {
-        }
-
-        private static string GetBishopSymbol(PieceColour colour) {
-            if (colour == PieceColour.White) {
-                return "BISHOP";
-            }
-
-            return "bishop";
+        public Bishop(PieceColour colour) : base(colour, PieceType.Bishop) {
         }
 
         public override List<Move> GetLegalMoves(Board board, int row, int col) {

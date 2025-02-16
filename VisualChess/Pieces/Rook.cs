@@ -1,16 +1,7 @@
 ﻿namespace Chess.Pieces {
     public class Rook : Piece {
-        public Rook(PieceColour colour) : base(colour, PieceType.Rook, GetRookSymbol(colour)) {
+        public Rook(PieceColour colour) : base(colour, PieceType.Rook) {
         }
-
-        private static string GetRookSymbol(PieceColour colour) {
-            if (colour == PieceColour.White) {
-                return "ROOK";
-            }
-
-            return "rook";
-        }
-
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
             List<Move> moves = new List<Move>();
 

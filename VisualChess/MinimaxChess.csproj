@@ -8,4 +8,34 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\Pieces\Black\Bishop.png" />
+    <None Remove="Assets\Pieces\Black\King.png" />
+    <None Remove="Assets\Pieces\Black\Knight.png" />
+    <None Remove="Assets\Pieces\Black\Pawn.png" />
+    <None Remove="Assets\Pieces\Black\Queen.png" />
+    <None Remove="Assets\Pieces\Black\Rook.png" />
+    <None Remove="Assets\Pieces\White\Bishop.png" />
+    <None Remove="Assets\Pieces\White\King.png" />
+    <None Remove="Assets\Pieces\White\Knight.png" />
+    <None Remove="Assets\Pieces\White\Pawn.png" />
+    <None Remove="Assets\Pieces\White\Queen.png" />
+    <None Remove="Assets\Pieces\White\Rook.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Pieces\Black\Bishop.png" />
+    <Resource Include="Assets\Pieces\Black\King.png" />
+    <Resource Include="Assets\Pieces\Black\Knight.png" />
+    <Resource Include="Assets\Pieces\Black\Pawn.png" />
+    <Resource Include="Assets\Pieces\Black\Queen.png" />
+    <Resource Include="Assets\Pieces\Black\Rook.png" />
+    <Resource Include="Assets\Pieces\White\Bishop.png" />
+    <Resource Include="Assets\Pieces\White\King.png" />
+    <Resource Include="Assets\Pieces\White\Knight.png" />
+    <Resource Include="Assets\Pieces\White\Pawn.png" />
+    <Resource Include="Assets\Pieces\White\Queen.png" />
+    <Resource Include="Assets\Pieces\White\Rook.png" />
+  </ItemGroup>
+
 </Project>
