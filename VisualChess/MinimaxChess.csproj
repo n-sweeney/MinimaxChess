@@ -21,6 +21,7 @@
     <None Remove="Assets\Pieces\White\Pawn.png" />
     <None Remove="Assets\Pieces\White\Queen.png" />
     <None Remove="Assets\Pieces\White\Rook.png" />
+    <None Remove="Assets\Textures\TableBackground.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,9 @@
     <Resource Include="Assets\Pieces\White\Pawn.png" />
     <Resource Include="Assets\Pieces\White\Queen.png" />
     <Resource Include="Assets\Pieces\White\Rook.png" />
+    <Resource Include="Assets\Textures\TableBackground.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

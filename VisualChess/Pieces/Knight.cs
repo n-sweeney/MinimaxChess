@@ -1,6 +1,6 @@
 ﻿namespace Chess.Pieces {
     public class Knight : Piece {
-        public Knight(PieceColour colour) : base(colour, PieceType.Knight) {
+        public Knight(PieceColour colour) : base(colour, PieceType.Knight, 30) {
         }
 
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
