@@ -5,10 +5,12 @@
     public abstract class Piece {
         public PieceColour Colour { get; set; }
         public PieceType Type { get; set; }
+        public int Value { get; }
 
-        public Piece(PieceColour colour, PieceType type) {
+        public Piece(PieceColour colour, PieceType type, int value) {
             Colour = colour;
             Type = type;
+            Value = value;
         }
 
         public abstract List<Chess.Move> GetLegalMoves(Chess.Board board, int row, int col);

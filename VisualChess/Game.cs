@@ -57,9 +57,9 @@ namespace Chess {
             }
         }
 
-        public Move GetBestMove(PieceColour aiColour) {
+        public Move? GetBestMove(PieceColour aiColour) {
             List<Move> moves = Board.GenerateAllMoves(aiColour);
-            Move bestMove = null;
+            Move? bestMove = null;
             int bestEval = int.MinValue;
 
             foreach (var move in moves) {

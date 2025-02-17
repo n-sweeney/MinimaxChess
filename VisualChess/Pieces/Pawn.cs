@@ -1,6 +1,6 @@
 ﻿namespace Chess.Pieces {
     public class Pawn : Piece {
-        public Pawn(PieceColour colour) : base(colour, PieceType.Pawn) { }
+        public Pawn(PieceColour colour) : base(colour, PieceType.Pawn, 10) { }
 
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
             List<Move> moves = new List<Move>();

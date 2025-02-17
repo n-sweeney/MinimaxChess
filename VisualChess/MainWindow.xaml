@@ -1,16 +1,34 @@
 ﻿<Window x:Class="MinimaxChess.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MinimaxChess"
-        mc:Ignorable="d"
         Title="Chess" Height="1000" Width="1000">
-    <Grid>
-        <Border BorderThickness="100">
-            <UniformGrid x:Name="UniformGridBoard" Rows="8" Columns="8">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="WhiteCapturedPanel" 
+                    Orientation="Horizontal" 
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    Height="100">
+        </StackPanel>
+
+        <StackPanel x:Name="BlackCapturedPanel" 
+                    Orientation="Horizontal" 
+                    Grid.Row="0"
+                    HorizontalAlignment="Right"
+                    Margin="10"
+                    Height="50">
+        </StackPanel>
+
+        <Border Grid.Row="1" BorderThickness="100,0,100,0">
+            <UniformGrid x:Name="UniformGridBoard" Rows="8" Columns="8">
             </UniformGrid>
         </Border>
+
     </Grid>
 </Window>

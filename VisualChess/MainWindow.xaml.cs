@@ -61,10 +61,8 @@ namespace MinimaxChess {
                     tiles[i, j].BorderThickness = new Thickness(0);
 
                     if (piece != null) {
-                        string url = piece.GetImagePath();
-
                         Image pieceImage = new Image {
-                            Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute)),
+                            Source = new BitmapImage(new Uri(piece.GetImagePath(), UriKind.RelativeOrAbsolute)),
                             Width = 70,
                             Height = 70,
                             Stretch = Stretch.Uniform
@@ -73,6 +71,31 @@ namespace MinimaxChess {
                         tiles[i, j].Content = pieceImage;
                     }
                 }
+            }
+
+            WhiteCapturedPanel.Children.Clear();
+            BlackCapturedPanel.Children.Clear();
+
+            foreach (var taken in game.Board.whitePieces) {
+                Image takenImage = new Image {
+                    Source = new BitmapImage(new Uri(taken.GetImagePath(), UriKind.Relative)),
+                    Width = 25,
+                    Height = 25,
+                    Margin = new Thickness(5)
+                };
+
+                WhiteCapturedPanel.Children.Add(takenImage);
+            }
+
+            foreach (var taken in game.Board.blackPieces) {
+                Image takenImage = new Image {
+                    Source = new BitmapImage(new Uri(taken.GetImagePath(), UriKind.Relative)),
+                    Width = 25,
+                    Height = 25,
+                    Margin = new Thickness(5)
+                };
+
+                BlackCapturedPanel.Children.Add(takenImage);
             }
         }
 
@@ -131,28 +154,34 @@ namespace MinimaxChess {
                     DisplayBoard();
                     DeselectSquare();
 
-                    if (!game.Board.IsKingAlive(PieceColour.White) || !game.Board.IsKingAlive(PieceColour.Black)) {
-                        MessageBox.Show("Game over");
+                    if (!game.Board.IsKingAlive(PieceColour.White)) {
+                        MessageBox.Show("Game over - Black Wins!");
+                        return;
+                    } else if (!game.Board.IsKingAlive(PieceColour.Black)) {
+                        MessageBox.Show("Game over - White Wins!");
                         return;
                     }
 
                     if (game.Turn == PieceColour.Black) {
-                        Move aiMove = game.GetBestMove(PieceColour.Black);
+                        Move? aiMove = game.GetBestMove(PieceColour.Black);
                         if (aiMove != null) {
                             game.Board.MakeMove(aiMove);
                             game.Turn = game.Opponent(game.Turn);
                             DisplayBoard();
 
-                            if (!game.Board.IsKingAlive(PieceColour.White) || !game.Board.IsKingAlive(PieceColour.Black)) {
-                                MessageBox.Show("Game over");
+                            if (!game.Board.IsKingAlive(PieceColour.White)) {
+                                MessageBox.Show("Game over - Black Wins!");
+                                return;
+                            } else if (!game.Board.IsKingAlive(PieceColour.Black)) {
+                                MessageBox.Show("Game over - White Wins!");
                                 return;
                             }
                         } else {
-                            MessageBox.Show("Computer has no legal moves left");
+                            MessageBox.Show("Computer has no legal moves left"); // Check if checkmate or stalemate
                         }
                     }
                 } else {
-                    MessageBox.Show("Invalid move");
+                    MessageBox.Show("Invalid move - try again");
                     DeselectSquare();
                     DisplayBoard();
                 }

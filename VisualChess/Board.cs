@@ -65,9 +65,9 @@ namespace Chess {
 
             if (takenPiece != null) {
                 if (takenPiece.Colour == PieceColour.White) {
-                    whitePieces.Add(takenPiece);
+                    AddPieceToList(whitePieces, takenPiece);
                 } else {
-                    blackPieces.Add(takenPiece);
+                    AddPieceToList(blackPieces, takenPiece);
                 }
             }
 
@@ -126,7 +126,7 @@ namespace Chess {
                     Piece? piece = Tiles[i, j];
 
                     if (piece != null) {
-                        int pieceValue = GetPieceValue(piece.Type);
+                        int pieceValue = piece.Value;
 
                         if (piece.Colour == colour) {
                             score += pieceValue;
@@ -140,36 +140,20 @@ namespace Chess {
             return score;
         }
 
-        public int GetPieceValue(PieceType type) {
-            switch (type) {
-                case PieceType.Pawn: {
-                    return 10;
-                }
+        private List<Piece> AddPieceToList(List<Piece> pieces, Piece piece) {
+            List<Piece> newOrder = new List<Piece>();
 
-                case PieceType.Knight: {
-                    return 30;
-                }
-
-                case PieceType.Bishop: {
-                    return 30;
-                }
-
-                case PieceType.Rook: {
-                    return 50;
-                }
-
-                case PieceType.Queen: {
-                    return 90;
-                }
-
-                case PieceType.King: {
-                    return 900;
-                }
-
-                default: {
-                    return 0;
+            for (int i = 0; i < pieces.Count; i++) {
+                if (piece.Value >= pieces[i].Value) {
+                    pieces.Insert(i, piece);
+                    return pieces;
                 }
             }
+
+            pieces.Add(piece);
+
+            return pieces;
+
         }
     }
 }
