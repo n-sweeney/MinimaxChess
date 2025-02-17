@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace MinimaxChess {
     /// <summary>
@@ -13,15 +14,56 @@ namespace MinimaxChess {
 
         private Game game;
         private Button[,] tiles = new Button[8, 8];
+
         private int? selectedRow = null;
         private int? selectedCol = null;
         private Button? selectedTile = null;
+
+        private DispatcherTimer gameTimer;
+        private TimeSpan elapsedTime;
+
+        private DispatcherTimer turnTimer = new DispatcherTimer();
+
         public MainWindow() {
             InitializeComponent();
             game = new Game();
             GenerateChessBoard();
             DisplayBoard();
+            StartTimer();
+            DisplayTurn(game.Turn);
+        }
 
+        private void StartTimer() {
+            elapsedTime = TimeSpan.Zero;
+            gameTimer = new DispatcherTimer();
+            gameTimer.Interval = TimeSpan.FromSeconds(1);
+            gameTimer.Tick += TimerTick;
+            gameTimer.Start();
+        }
+
+        private void TimerTick(object sender, EventArgs e) {
+            elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(1));
+            TimerText.Text = elapsedTime.ToString(@"mm\:ss"); // Format as MM:SS
+        }
+
+        private void DisplayTurn(PieceColour player) {
+
+            if (player == PieceColour.White) {
+                TurnText.Text = "White's Turn";
+            } else {
+                TurnText.Text = "Black's Turn";
+            }
+
+            turnTimer.Interval = TimeSpan.FromSeconds(1.5);
+            turnTimer.Tick += (s, e) => {
+                TurnBorder.Visibility = Visibility.Collapsed;
+                TurnText.Visibility = Visibility.Collapsed;
+                turnTimer.Stop();
+            };
+            turnTimer.Start();
+
+            TurnText.Visibility = Visibility.Visible;
+            TurnBorder.Visibility = Visibility.Visible;
         }
 
         private void GenerateChessBoard() {
@@ -99,7 +141,7 @@ namespace MinimaxChess {
             }
         }
 
-        private void TileSelected(object sender, RoutedEventArgs e) {
+        private async void TileSelected(object sender, RoutedEventArgs e) {
             Button? clickedButton = sender as Button;
             if (clickedButton == null)
                 return;
@@ -162,11 +204,15 @@ namespace MinimaxChess {
                         return;
                     }
 
+                    DisplayTurn(game.Turn);
                     if (game.Turn == PieceColour.Black) {
                         Move? aiMove = game.GetBestMove(PieceColour.Black);
+
+                        await Task.Delay(2000);
                         if (aiMove != null) {
                             game.Board.MakeMove(aiMove);
                             game.Turn = game.Opponent(game.Turn);
+                            DisplayTurn(game.Turn);
                             DisplayBoard();
 
                             if (!game.Board.IsKingAlive(PieceColour.White)) {
