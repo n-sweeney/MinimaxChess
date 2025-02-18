@@ -26,7 +26,7 @@ namespace Chess {
                 currentColour = Opponent(aiColour);
             }
 
-            List<Move> moves = board.GenerateAllMoves(currentColour);
+            List<Move> moves = board.GetValidMoves(currentColour);
 
             if (moves.Count == 0) {
                 return board.Evaluate(aiColour);
@@ -58,7 +58,7 @@ namespace Chess {
         }
 
         public Move? GetBestMove(PieceColour aiColour) {
-            List<Move> moves = Board.GenerateAllMoves(aiColour);
+            List<Move> moves = Board.GetValidMoves(aiColour);
             Move? bestMove = null;
             int bestEval = int.MinValue;
 
@@ -76,7 +76,7 @@ namespace Chess {
             return bestMove;
         }
 
-        public PieceColour Opponent(PieceColour colour) {
+        public static PieceColour Opponent(PieceColour colour) {
             if (colour == PieceColour.White) {
                 return PieceColour.Black;
             }

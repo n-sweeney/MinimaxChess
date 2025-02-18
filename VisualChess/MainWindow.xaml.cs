@@ -43,7 +43,7 @@ namespace MinimaxChess {
 
         private void TimerTick(object sender, EventArgs e) {
             elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(1));
-            TimerText.Text = elapsedTime.ToString(@"mm\:ss"); // Format as MM:SS
+            TimerText.Text = elapsedTime.ToString(@"mm\:ss");
         }
 
         private void DisplayTurn(PieceColour player) {
@@ -118,7 +118,7 @@ namespace MinimaxChess {
             WhiteCapturedPanel.Children.Clear();
             BlackCapturedPanel.Children.Clear();
 
-            foreach (var taken in game.Board.whitePieces) {
+            foreach (var taken in game.Board.WhitePieces) {
                 Image takenImage = new Image {
                     Source = new BitmapImage(new Uri(taken.GetImagePath(), UriKind.Relative)),
                     Width = 25,
@@ -129,7 +129,7 @@ namespace MinimaxChess {
                 WhiteCapturedPanel.Children.Add(takenImage);
             }
 
-            foreach (var taken in game.Board.blackPieces) {
+            foreach (var taken in game.Board.BlackPieces) {
                 Image takenImage = new Image {
                     Source = new BitmapImage(new Uri(taken.GetImagePath(), UriKind.Relative)),
                     Width = 25,
@@ -159,7 +159,7 @@ namespace MinimaxChess {
                     selectedTile.BorderThickness = new Thickness(3);
                     selectedTile.BorderBrush = Brushes.Red;
 
-                    var legalMoves = game.Board.GenerateAllMoves(game.Turn);
+                    List<Move> legalMoves = game.Board.GetValidMoves(game.Turn);
 
                     foreach (Move legalMove in legalMoves) {
                         if (legalMove.FromRow == selectedRow && legalMove.FromCol == selectedCol) {
@@ -181,7 +181,7 @@ namespace MinimaxChess {
                 Move move = new Move(selectedRow.Value, selectedCol.Value, row, col);
 
                 bool isLegal = false;
-                List<Move> legalMoves = game.Board.GenerateAllMoves(game.Turn);
+                List<Move> legalMoves = game.Board.GetValidMoves(game.Turn);
 
                 foreach (Move legalMove in legalMoves) {
                     if (legalMove.FromRow == move.FromRow && legalMove.FromCol == move.FromCol && legalMove.ToRow == move.ToRow && legalMove.ToCol == move.ToCol) {
@@ -192,7 +192,7 @@ namespace MinimaxChess {
 
                 if (isLegal) {
                     game.Board.MakeMove(move);
-                    game.Turn = game.Opponent(game.Turn);
+                    game.Turn = Game.Opponent(game.Turn);
                     DisplayBoard();
                     DeselectSquare();
 
@@ -211,7 +211,7 @@ namespace MinimaxChess {
                         await Task.Delay(2000);
                         if (aiMove != null) {
                             game.Board.MakeMove(aiMove);
-                            game.Turn = game.Opponent(game.Turn);
+                            game.Turn = Game.Opponent(game.Turn);
                             DisplayTurn(game.Turn);
                             DisplayBoard();
 

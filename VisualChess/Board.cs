@@ -4,13 +4,13 @@ namespace Chess {
     public class Board {
         public const int BOARDSIZE = 8;
         public Piece?[,] Tiles { get; set; }
-        public List<Piece> whitePieces { get; set; }
-        public List<Piece> blackPieces { get; set; }
+        public List<Piece> WhitePieces { get; set; }
+        public List<Piece> BlackPieces { get; set; }
 
         public Board() {
             Tiles = new Piece[BOARDSIZE, BOARDSIZE];
-            whitePieces = new List<Piece>();
-            blackPieces = new List<Piece>();
+            WhitePieces = new List<Piece>();
+            BlackPieces = new List<Piece>();
         }
 
         public void Initialise() {
@@ -50,7 +50,7 @@ namespace Chess {
             }
         }
 
-        public bool IsInsideBoard(int row, int col) {
+        public static bool IsInsideBoard(int row, int col) {
             return row >= 0 && row < BOARDSIZE && col >= 0 && col < BOARDSIZE;
         }
 
@@ -65,9 +65,9 @@ namespace Chess {
 
             if (takenPiece != null) {
                 if (takenPiece.Colour == PieceColour.White) {
-                    AddPieceToList(whitePieces, takenPiece);
+                    AddPieceToList(WhitePieces, takenPiece);
                 } else {
-                    AddPieceToList(blackPieces, takenPiece);
+                    AddPieceToList(BlackPieces, takenPiece);
                 }
             }
 
@@ -103,6 +103,22 @@ namespace Chess {
             }
 
             return moves;
+        }
+
+        public List<Move> GetValidMoves(PieceColour colour) {
+            List<Move> legalMoves = new List<Move>();
+            List<Move> allMoves = GenerateAllMoves(colour);
+
+            foreach (Move move in allMoves) {
+                Board boardClone = Clone();
+                boardClone.MakeMove(move);
+
+                if (!boardClone.IsInCheck(colour)) {
+                    legalMoves.Add(move);
+                }
+            }
+
+            return legalMoves;
         }
 
         public bool IsKingAlive(PieceColour colour) {
@@ -153,7 +169,36 @@ namespace Chess {
             pieces.Add(piece);
 
             return pieces;
-
         }
+
+        public bool IsInCheck(PieceColour colour) {
+            int kingRow = -1, kingCol = -1;
+            for (int i = 0; i < BOARDSIZE; i++) {
+                for (int j = 0; j < BOARDSIZE; j++) {
+                    Piece? piece = Tiles[i, j];
+
+                    if (piece != null && piece.Type == PieceType.King && piece.Colour == colour) {
+                        kingRow = i;
+                        kingCol = j;
+                        break;
+                    }
+                }
+            }
+
+            if (kingRow == -1 || kingCol == -1) {
+                return true;
+            }
+
+            PieceColour opponent = Game.Opponent(colour);
+            List<Move> opponentMoves = GenerateAllMoves(opponent);
+
+            foreach (Move move in opponentMoves) {
+                if (move.ToRow == kingRow && move.ToCol == kingCol)
+                    return true;
+            }
+
+            return false;
+        }
+
     }
 }
