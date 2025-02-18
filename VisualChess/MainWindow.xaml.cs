@@ -23,7 +23,9 @@ namespace MinimaxChess {
         private TimeSpan elapsedTime;
 
         private DispatcherTimer turnTimer = new DispatcherTimer();
-
+        /// <summary>
+        /// Main constructor for UI
+        /// </summary>
         public MainWindow() {
             InitializeComponent();
             game = new Game();
@@ -33,6 +35,10 @@ namespace MinimaxChess {
             DisplayTurn(game.Turn);
         }
 
+
+        /// <summary>
+        /// Creates and starts timer for game time
+        /// </summary>
         private void StartTimer() {
             elapsedTime = TimeSpan.Zero;
             gameTimer = new DispatcherTimer();
@@ -41,11 +47,20 @@ namespace MinimaxChess {
             gameTimer.Start();
         }
 
+        /// <summary>
+        /// Increments the timer by one second and updates the display.
+        /// </summary>
+        /// <param name="sender">game timer object</param>
+        /// <param name="e">The event data associated with the timer tick</param>
         private void TimerTick(object sender, EventArgs e) {
             elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(1));
             TimerText.Text = elapsedTime.ToString(@"mm\:ss");
         }
 
+        /// <summary>
+        /// Creates turn UI for player provided. Used when each turn is switched.
+        /// </summary>
+        /// <param name="player">The current player</param>
         private void DisplayTurn(PieceColour player) {
 
             if (player == PieceColour.White) {
@@ -66,6 +81,10 @@ namespace MinimaxChess {
             TurnBorder.Visibility = Visibility.Visible;
         }
 
+
+        /// <summary>
+        /// Generates the Chess board UI by generating the grid's buttons
+        /// </summary>
         private void GenerateChessBoard() {
             for (int i = 0; i < Chess.Board.BOARDSIZE; i++) {
                 for (int j = 0; j < Chess.Board.BOARDSIZE; j++) {
@@ -94,6 +113,9 @@ namespace MinimaxChess {
             }
         }
 
+        /// <summary>
+        /// Updates current grid's buttons to display the current piece locations and taken pieces
+        /// </summary>
         private void DisplayBoard() {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -115,8 +137,8 @@ namespace MinimaxChess {
                 }
             }
 
-            WhiteCapturedPanel.Children.Clear();
-            BlackCapturedPanel.Children.Clear();
+            WhiteTakenPanel.Children.Clear();
+            BlackTakenPanel.Children.Clear();
 
             foreach (var taken in game.Board.WhitePieces) {
                 Image takenImage = new Image {
@@ -126,7 +148,7 @@ namespace MinimaxChess {
                     Margin = new Thickness(5)
                 };
 
-                WhiteCapturedPanel.Children.Add(takenImage);
+                WhiteTakenPanel.Children.Add(takenImage);
             }
 
             foreach (var taken in game.Board.BlackPieces) {
@@ -137,10 +159,18 @@ namespace MinimaxChess {
                     Margin = new Thickness(5)
                 };
 
-                BlackCapturedPanel.Children.Add(takenImage);
+                BlackTakenPanel.Children.Add(takenImage);
             }
         }
 
+        /// <summary>
+        /// Handles logic for when a tile is selected. It determines if it is the first or second button and completes the necessary actions.
+        /// If it is the first button, the legal moves are displayed for the player.
+        /// If it is the second button, it determines if it is a legal move and plays it. The computer now calculates and completes its go.
+        /// </summary>
+        /// <param name="sender">The button pressed</param>
+        /// <param name="e">The event data associated with the tile selection</param>
+        /// <returns>
         private async void TileSelected(object sender, RoutedEventArgs e) {
             Button? clickedButton = sender as Button;
             if (clickedButton == null)
@@ -223,7 +253,7 @@ namespace MinimaxChess {
                                 return;
                             }
                         } else {
-                            MessageBox.Show("Computer has no legal moves left"); // Check if checkmate or stalemate
+                            MessageBox.Show("Computer has no legal moves left"); // TO DO: Check if checkmate or stalemate
                         }
                     }
                 } else {
@@ -233,6 +263,10 @@ namespace MinimaxChess {
                 }
             }
         }
+
+        /// <summary>
+        /// Deselects the current square. Used when a go is completed or the move is invalid.
+        /// </summary>
         private void DeselectSquare() {
             if (selectedTile != null) {
                 selectedTile.BorderThickness = new Thickness(0);

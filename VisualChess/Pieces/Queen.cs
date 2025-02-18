@@ -3,11 +3,20 @@
         public Queen(PieceColour colour) : base(colour, PieceType.Queen, 90) {
         }
 
+        /// <summary>
+        /// Generates all legal moves for the current queen object.
+        /// </summary>
+        /// <param name="board">The board to check against</param>
+        /// <param name="row">The current row</param>
+        /// <param name="col">the current column</param>
+        /// <returns>
+        /// List of legal moves (including check moves)
+        /// </returns>
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
             List<Move> moves = new List<Move>();
 
-            int[] rowRelative = new int[] { -1, 0, 1, 0, -1, -1, 1, 1 };
-            int[] colRelative = new int[] { 0, 1, 0, -1, -1, 1, 1, -1 };
+            int[] rowRelative = [-1, 0, 1, 0, -1, -1, 1, 1];
+            int[] colRelative = [0, 1, 0, -1, -1, 1, 1, -1];
 
             for (int dir = 0; dir < rowRelative.Length; dir++) {
                 int newRow = row;
@@ -17,7 +26,7 @@
                     newRow += rowRelative[dir];
                     newCol += colRelative[dir];
 
-                    if (!board.IsInsideBoard(newRow, newCol)) {
+                    if (!Board.IsInsideBoard(newRow, newCol)) {
                         break;
                     }
 

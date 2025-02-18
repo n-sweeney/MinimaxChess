@@ -19,7 +19,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel x:Name="WhiteCapturedPanel" 
+        <StackPanel x:Name="WhiteTakenPanel" 
                     Orientation="Horizontal" 
                     Grid.Row="0" Grid.Column="0"
                     HorizontalAlignment="Left"
@@ -35,7 +35,7 @@
                    VerticalAlignment="Center"
                    Text="00:00" />
 
-        <StackPanel x:Name="BlackCapturedPanel" 
+        <StackPanel x:Name="BlackTakenPanel" 
                     Orientation="Horizontal" 
                     Grid.Row="0" Grid.Column="2"
                     HorizontalAlignment="Right"

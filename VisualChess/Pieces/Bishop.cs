@@ -3,6 +3,15 @@
         public Bishop(PieceColour colour) : base(colour, PieceType.Bishop, 30) {
         }
 
+        /// <summary>
+        /// Generates all legal moves for the current bishop object.
+        /// </summary>
+        /// <param name="board">The board to check against</param>
+        /// <param name="row">The current row</param>
+        /// <param name="col">the current column</param>
+        /// <returns>
+        /// List of legal moves (including check moves)
+        /// </returns>
         public override List<Move> GetLegalMoves(Board board, int row, int col) {
             List<Move> moves = [];
 
@@ -17,7 +26,7 @@
                     newRow += rowRelative[dir];
                     newCol += colRelative[dir];
 
-                    if (!board.IsInsideBoard(newRow, newCol)) {
+                    if (!Board.IsInsideBoard(newRow, newCol)) {
                         break;
                     }
 

@@ -6,6 +6,9 @@ namespace Chess {
         public PieceColour Turn { get; set; }
         public int Depth { get; set; }
 
+        /// <summary>
+        /// Main Game constructor
+        /// </summary>
         public Game() {
             Board = new Board();
             Board.Initialise();
@@ -13,6 +16,16 @@ namespace Chess {
             Depth = 3;
         }
 
+        /// <summary>
+        /// Authenticates a user based on a username and password.
+        /// </summary>
+        /// <param name="board">The current depth's board</param>
+        /// <param name="depth">the current remaining depth to explore</param>
+        /// <param name="isMaximizing">If to maximise (computer's turn) or not (player's turn)</param>
+        /// <param name="aiColour">The colour of the computer</param>
+        /// <returns>
+        /// The current board's best case score.
+        /// </returns>
         public int Minimax(Board board, int depth, bool isMaximizing, PieceColour aiColour) {
             if (depth == 0 || !board.IsKingAlive(PieceColour.White) || !board.IsKingAlive(PieceColour.Black)) {
                 return board.Evaluate(aiColour);
@@ -57,6 +70,13 @@ namespace Chess {
             }
         }
 
+        /// <summary>
+        /// Determines the best move for the computer to make based on the results of the minimax algorithm
+        /// </summary>
+        /// <param name="aiColour">The computers colour to maximise</param>
+        /// <returns>
+        /// Best move (if exists) for computer to make
+        /// </returns>
         public Move? GetBestMove(PieceColour aiColour) {
             List<Move> moves = Board.GetValidMoves(aiColour);
             Move? bestMove = null;
@@ -76,6 +96,13 @@ namespace Chess {
             return bestMove;
         }
 
+        /// <summary>
+        /// Helper function to return the opposite colour for a provided colour
+        /// </summary>
+        /// <param name="colour">Current colour</param>
+        /// <returns>
+        /// Opponent Colour
+        /// </returns>
         public static PieceColour Opponent(PieceColour colour) {
             if (colour == PieceColour.White) {
                 return PieceColour.Black;
